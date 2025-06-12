@@ -44,17 +44,18 @@ for (let i = 0; i < teamMembers.length; i++) {
   const { member_name, role, email, img } = teamMembers[i];
 
   // Creo la colonna per ogni membro
-  createColElements("div", "col-12", "col-md-6", "col-lg-4", "d-flex", "justify-content-center");
+  createColElements("div", "col-4", "d-flex", "align-items-center");
   // Creo la card
-  createCardElements("div", "card", "d-flex", "flex-row", "text-center");
+  // createCardElements("div", "card", "d-flex", "flex-row", "text-center");
   // Aggiungo l'immagine
-  createCardImgElements("img", img, "card-img-top", "rounded-circle", "w-50", "mt-3");
+  createImgElements("img", img, "card-img-top", "w-50");
   // Creo il corpo della card
-  createCardBodyElements("div", "card-body", "d-flex", "flex-column", "align-items-center");
+  // createBodyElements("div", "card-body", "d-flex", "flex-column", "align-items-center");
   // Titolo con il nome
-  createCardTitleElements("h5", member_name, "card-title", "mt-3");
+  createDescriptionElements("h5", member_name);
   // Testo con ruolo ed email
-  createCardTextElements("div", role, email, "card-text");
+  // createDescriptionElements("p", role);
+  // createDescriptionElements("p", email);
 }
 
 // Funzioni di creazione elementi
@@ -70,37 +71,34 @@ function createColElements(tag, ...classes) {
   document.querySelector(".row").appendChild(divEl);
   return divEl;
 }
-function createCardElements(tag, ...classes) {
-  const divEl = document.createElement(tag);
-  divEl.classList.add(...classes);
-  document.querySelector(".col-12:last-child").appendChild(divEl);
-  return divEl;
-}
-function createCardBodyElements(tag, ...classes) {
-  const divEl = document.createElement(tag);
-  divEl.classList.add(...classes);
-  document.querySelector(".card:last-child").appendChild(divEl);
-  return divEl;
-}
-function createCardTitleElements(tag, member_name, ...classes) {
-  const titleEl = document.createElement(tag);
-  titleEl.innerHTML = `<h5 class="card-title">${member_name}</h5>`;
-  document.querySelector(".card-body:last-child").appendChild(titleEl);
-}
-function createCardTextElements(tag, role, email, ...classes) {
+// function createCardElements(tag, ...classes) {
+//   const divEl = document.createElement(tag);
+//   divEl.classList.add(...classes);
+//   document.querySelector(".col-12:last-child").appendChild(divEl);
+//   return divEl;
+// }
+// function createCardBodyElements(tag, ...classes) {
+//   const divEl = document.createElement(tag);
+//   divEl.classList.add(...classes);
+//   document.querySelector(".card:last-child").appendChild(divEl);
+//   return divEl;
+//}
+function createDescriptionElements(tag, property, ...classes) {
   const descriptionEl = document.createElement(tag);
   descriptionEl.classList.add(...classes);
   descriptionEl.innerHTML = `
-    <p class="card-text">${role}</p>
-    <p class="card-text">${email}</p>
+    <h5 class="card-title">${property.member_name}</h5>
+    <p class="card-text">${property.role}</p>
+    <p class="card-text">${property.email}</p>
   `;
-  document.querySelector(".card-body:last-child").appendChild(descriptionEl);
-}
-function createCardImgElements(tag, img, ...classes) {
+  document.querySelector(".col-4").appendChild(descriptionEl);
+  return descriptionEl;
+};
+function createImgElements(tag, img, ...classes) {
   const imgEl = document.createElement(tag);
   imgEl.classList.add(...classes);
   imgEl.setAttribute("src", `./img/${img}`);
   imgEl.setAttribute("alt", "team member image");
-  document.querySelector(".card:last-child").appendChild(imgEl);
+  document.querySelector(".col-4").appendChild(imgEl);
   return imgEl;
 }
