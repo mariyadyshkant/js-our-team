@@ -3,13 +3,13 @@ const teamMembers = [
     member_name: "Marco Bianchi",
     role: "Designer",
     email: "marcobianchi@team.com",
-    img: "male1.png"
+    img: "./img/male1.png"
   },
   {
     member_name: "Laura Rossi",
     role: "Front-end Developer",
     email: "laurarossi@team.com",
-    img: "female1.png"
+    img: "./img/female1.png"
   },
   {
     member_name: "Giorgio Verdi",
@@ -43,35 +43,21 @@ createRowElements("div", "row", "d-flex", "flex-row", "flex-wrap", "justify-cont
 for (let i = 0; i < teamMembers.length; i++) {
   const { member_name, role, email, img } = teamMembers[i];
 
-  // Creo la colonna per ogni membro con flex-row
+  // Creo la colonna per ogni membro e salvo il riferimento
   const col = createColElements("div", "col-4", "d-flex", "flex-row", "align-items-center", "my-3");
 
-  // Creo il box immagine
-  const imgBox = document.createElement("div");
-  imgBox.classList.add("me-3"); // margine a destra per separare
-  col.appendChild(imgBox);
-
-  // Inserisco l'immagine nel box
+  // Creo il box immagine e inserisco l'immagine
+  const imgBox = createImgBox("div", "me-3");
   const imgEl = createImgElements("img", img, "w-75");
   imgBox.appendChild(imgEl);
+  col.appendChild(imgBox);
 
-  // Creo il box descrizione
-  const descBox = document.createElement("div");
-  descBox.classList.add("d-flex", "flex-column");
+  // Creo il box descrizione e inserisco nome, ruolo, email
+  const descBox = createDescriptionBox("div", "d-flex", "flex-column");
+  descBox.appendChild(createTextElement("h5", member_name));
+  descBox.appendChild(createTextElement("p", role));
+  descBox.appendChild(createTextElement("p", email));
   col.appendChild(descBox);
-
-  // Inserisco nome, ruolo, email nel box descrizione
-  const nameEl = document.createElement("h5");
-  nameEl.textContent = member_name;
-  descBox.appendChild(nameEl);
-
-  const roleEl = document.createElement("p");
-  roleEl.textContent = role;
-  descBox.appendChild(roleEl);
-
-  const emailEl = document.createElement("p");
-  emailEl.textContent = email;
-  descBox.appendChild(emailEl);
 }
 
 // Funzioni di creazione elementi
@@ -87,10 +73,25 @@ function createColElements(tag, ...classes) {
   document.querySelector(".row").appendChild(divEl);
   return divEl;
 }
+function createImgBox(tag, ...classes) {
+  const box = document.createElement(tag);
+  box.classList.add(...classes);
+  return box;
+}
+function createDescriptionBox(tag, ...classes) {
+  const box = document.createElement(tag);
+  box.classList.add(...classes);
+  return box;
+}
 function createImgElements(tag, img, ...classes) {
   const imgEl = document.createElement(tag);
   imgEl.classList.add(...classes);
-  imgEl.setAttribute("src", `./img/${img}`);
-  imgEl.setAttribute("alt", "team member image");
+  imgEl.src = img.startsWith("./img/") ? img : `./img/${img}`;
+  imgEl.alt = "team member image";
   return imgEl;
+}
+function createTextElement(tag, text) {
+  const el = document.createElement(tag);
+  el.textContent = text;
+  return el;
 }
