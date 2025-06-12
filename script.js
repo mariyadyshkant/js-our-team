@@ -43,19 +43,35 @@ createRowElements("div", "row", "d-flex", "flex-row", "flex-wrap", "justify-cont
 for (let i = 0; i < teamMembers.length; i++) {
   const { member_name, role, email, img } = teamMembers[i];
 
-  // Creo la colonna per ogni membro
-  createColElements("div", "col-4", "d-flex", "align-items-center");
-  // Creo la card
-  // createCardElements("div", "card", "d-flex", "flex-row", "text-center");
-  // Aggiungo l'immagine
-  createImgElements("img", img, "card-img-top", "w-50");
-  // Creo il corpo della card
-  // createBodyElements("div", "card-body", "d-flex", "flex-column", "align-items-center");
-  // Titolo con il nome
-  createDescriptionElements("h5", member_name);
-  // Testo con ruolo ed email
-  // createDescriptionElements("p", role);
-  // createDescriptionElements("p", email);
+  // Creo la colonna per ogni membro con flex-row
+  const col = createColElements("div", "col-4", "d-flex", "flex-row", "align-items-center", "my-3");
+
+  // Creo il box immagine
+  const imgBox = document.createElement("div");
+  imgBox.classList.add("me-3"); // margine a destra per separare
+  col.appendChild(imgBox);
+
+  // Inserisco l'immagine nel box
+  const imgEl = createImgElements("img", img, "w-75");
+  imgBox.appendChild(imgEl);
+
+  // Creo il box descrizione
+  const descBox = document.createElement("div");
+  descBox.classList.add("d-flex", "flex-column");
+  col.appendChild(descBox);
+
+  // Inserisco nome, ruolo, email nel box descrizione
+  const nameEl = document.createElement("h5");
+  nameEl.textContent = member_name;
+  descBox.appendChild(nameEl);
+
+  const roleEl = document.createElement("p");
+  roleEl.textContent = role;
+  descBox.appendChild(roleEl);
+
+  const emailEl = document.createElement("p");
+  emailEl.textContent = email;
+  descBox.appendChild(emailEl);
 }
 
 // Funzioni di creazione elementi
@@ -71,34 +87,10 @@ function createColElements(tag, ...classes) {
   document.querySelector(".row").appendChild(divEl);
   return divEl;
 }
-// function createCardElements(tag, ...classes) {
-//   const divEl = document.createElement(tag);
-//   divEl.classList.add(...classes);
-//   document.querySelector(".col-12:last-child").appendChild(divEl);
-//   return divEl;
-// }
-// function createCardBodyElements(tag, ...classes) {
-//   const divEl = document.createElement(tag);
-//   divEl.classList.add(...classes);
-//   document.querySelector(".card:last-child").appendChild(divEl);
-//   return divEl;
-//}
-function createDescriptionElements(tag, property, ...classes) {
-  const descriptionEl = document.createElement(tag);
-  descriptionEl.classList.add(...classes);
-  descriptionEl.innerHTML = `
-    <h5 class="card-title">${property.member_name}</h5>
-    <p class="card-text">${property.role}</p>
-    <p class="card-text">${property.email}</p>
-  `;
-  document.querySelector(".col-4").appendChild(descriptionEl);
-  return descriptionEl;
-};
 function createImgElements(tag, img, ...classes) {
   const imgEl = document.createElement(tag);
   imgEl.classList.add(...classes);
   imgEl.setAttribute("src", `./img/${img}`);
   imgEl.setAttribute("alt", "team member image");
-  document.querySelector(".col-4").appendChild(imgEl);
   return imgEl;
 }
