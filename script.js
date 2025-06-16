@@ -38,64 +38,47 @@ const teamMembers = [
 ];
 
 // Creo la row una sola volta
-const row = createRowElements("div", "row", "d-flex", "flex-row", "flex-wrap", "justify-content-center", "bg-light");
+const row = gridEl("div", "row", "d-flex", "flex-row", "flex-wrap", "justify-content-center", "bg-light");
+document.querySelector(".container").appendChild(row);
+let imgBox = "";
+let descBox = "";
 
 for (let i = 0; i < teamMembers.length; i++) {
+  const { imgBox, descBox } = gridStructure();
   const { member_name, role, email, img } = teamMembers[i];
-
-  // Creo la colonna per ogni membro e salvo il riferimento
-  const col = createColElements("div", "col-4", "d-flex", "flex-row", "align-items-center", "justify-content-around", "my-3");
-  row.appendChild(col);
-
-  // Creo il box immagine e inserisco l'immagine
-  const imgBox = createImgBox("div", "me-3");
-  col.appendChild(imgBox);
-  const imgEl = createImgElements("img", img, "w-100");
+  const imgEl = imgElem("img", img, "w-100");
   imgBox.appendChild(imgEl);
-
-
-  // Creo il box descrizione e inserisco nome, ruolo, email
-  const descBox = createDescriptionBox("div", "d-flex", "flex-column", "justify-content-between", "lh-1");
-  col.appendChild(descBox);
-  descBox.appendChild(createTextElement("h5", member_name, "fs-3", "mb-5", "bg-danger-subtle"));
-  descBox.appendChild(createTextElement("p", role, "fw-bolder"));
-  descBox.appendChild(createTextElement("p", email, "text-primary"));
+  descBox.appendChild(textElem("h5", member_name, "fs-3", "mb-5", "bg-danger-subtle"));
+  descBox.appendChild(textElem("p", role, "fw-bolder"));
+  descBox.appendChild(textElem("p", email, "text-primary"));
 
 }
 
 // Funzioni di creazione elementi
-function createRowElements(tag, ...classes) {
-  const divEl = document.createElement(tag);
-  divEl.classList.add(...classes);
-  document.querySelector(".container").appendChild(divEl);
-  return divEl;
+function gridEl(tag, ...classes) {
+  const element = document.createElement(tag);
+  element.classList.add(...classes);
+  return element;
 }
-function createColElements(tag, ...classes) {
-  const divEl = document.createElement(tag);
-  divEl.classList.add(...classes);
-  // document.querySelector(".row").appendChild(divEl);
-  return divEl;
+
+function gridStructure() {
+  const col = gridEl("div", "col-4", "d-flex", "flex-row", "align-items-center", "justify-content-around", "my-3");
+  row.appendChild(col);
+  imgBox = gridEl("div", "me-3");
+  col.appendChild(imgBox);
+  descBox = gridEl("div", "d-flex", "flex-column", "justify-content-between", "lh-1");
+  col.appendChild(descBox);
+  return { col, imgBox, descBox };
 }
-function createImgBox(tag, ...classes) {
-  const imgBox = document.createElement(tag);
-  imgBox.classList.add(...classes);
-  // document.querySelector(".col").appendChild(imgBox);
-  return imgBox;
-}
-function createDescriptionBox(tag, ...classes) {
-  const descBox = document.createElement(tag);
-  descBox.classList.add(...classes);
-  // document.querySelector(".col").appendChild(descBox);
-  return descBox;
-}
-function createImgElements(tag, img, ...classes) {
+
+function imgElem(tag, img, ...classes) {
   const imgEl = document.createElement(tag);
   imgEl.classList.add(...classes);
   imgEl.src = img;
   imgEl.alt = "team member image";
   return imgEl;
 }
-function createTextElement(tag, text, ...classes) {
+function textElem(tag, text, ...classes) {
   const textEl = document.createElement(tag);
   textEl.classList.add(...classes);
   textEl.textContent = text;
